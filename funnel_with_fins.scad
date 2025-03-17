@@ -20,9 +20,9 @@
 
 /*          [Parameters]       */
 
-outer_diameter = 70;     // Outer diameter in mm [20:150]
+outer_diameter = 100;     // Outer diameter in mm [20:150]
 cone_angle = 60;         // Cone angle in degrees [30:100]
-stem_diameter = 12;      // Stem diameter (where it meets the cone) [10:60]
+stem_diameter = 20;      // Stem diameter (where it meets the cone) [10:60]
 stem_length = 50;        // Length of stem [5:150]
 stem_taper = 15;         // Stem taper; diameter reduction at the end in % [0:50]
 air_gap_percentage = 40; // Air gap diameter as % of stem diameter [0:70]
