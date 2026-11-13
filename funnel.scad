@@ -10,26 +10,26 @@
  */
 
 // height of the slanted funneling section
-test_funnel_height = 60;
+funnel_height = 60;
 
 // top radius of the funnel
-test_funnel_top_radius = 50;
+funnel_top_radius = 50;
 
 // height of the throat section
-test_throat_height = 20;
+throat_height = 20;
 
 // radius of the throat
-test_throat_radius = 15;
+throat_radius = 15;
 
 // thickness of the funnel wall
-test_wall_thickness = 0.8;
+wall_thickness = 0.8;
 
 // additional height at the funnel's top edge
-test_top_edge_height = 5;
+top_edge_height = 5;
 
-funnel(funnel_height = test_funnel_height, funnel_top_radius = test_funnel_top_radius,
-       throat_height = test_throat_height, throat_radius = test_throat_radius, wall_thickness = test_wall_thickness,
-       top_edge_height = test_top_edge_height);
+funnel(funnel_height = funnel_height, funnel_top_radius = funnel_top_radius,
+       throat_height = throat_height, throat_radius = throat_radius, wall_thickness = wall_thickness,
+       top_edge_height = top_edge_height);
 
 /*
  * @brief Generate a funnel shape using the given parameters.
@@ -51,7 +51,6 @@ module funnel(funnel_height, funnel_top_radius, throat_height, throat_radius, wa
                           [wall_thickness, throat_height + funnel_height + top_edge_height],
                           [wall_thickness, throat_height + funnel_height],
                           [throat_radius + wall_thickness - funnel_top_radius, throat_height],
-                          [throat_radius + wall_thickness - funnel_top_radius, 0],
-                          [throat_radius - funnel_top_radius, 0] // Closing point (optional)
+                          [throat_radius + wall_thickness - funnel_top_radius, 0]
     ]);
 }
