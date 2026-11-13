@@ -1,17 +1,18 @@
 /**
- * @file funnel.scad
- * @brief Generate a funnel shape using the given parameters.
- * @author Cameron K. Brooks
+ * @file funnel_with_fins.scad
+ * @brief Generate a funnel with fins and an air gap for vase mode printing.
+ * @author Adapted by Cameron K. Brooks from the original design by DrJones
  * @copyright 2025
  *
  * This file contains modules for generating a funnel with a cone section, stem, air gap, and turbo fins using the given
  * parameters.
  *
- * Original design:
+ * Adapted from:
  * vase mode parametric funnel v2
  * by DrJones   printables.com/@DrJones   makerworld.com/@DrJones
  * License: CC-BY
  * Source: https://www.printables.com/model/895032-parametric-vase-mode-funnel-v2
+ * This adaptation is under the MIT license in this repository's LICENSE.
  *
  * Printing:
  *    Use VASE MODE and set EXTUSION WIDTH (LINE WIDTH) to 0.7mm
