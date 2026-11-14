@@ -19,21 +19,35 @@
  *
  */
 
-/*          [Parameters]       */
+/* [Cone] */
+// Outer diameter of the wide end (mm)
+outer_diameter = 100; // [20:150]
+// Included angle of the cone (degrees)
+cone_angle = 60; // [30:100]
 
-outer_diameter = 100;     // Outer diameter in mm [20:150]
-cone_angle = 60;         // Cone angle in degrees [30:100]
-stem_diameter = 20;      // Stem diameter (where it meets the cone) [10:60]
-stem_length = 50;        // Length of stem [5:150]
-stem_taper = 15;         // Stem taper; diameter reduction at the end in % [0:50]
-air_gap_percentage = 40; // Air gap diameter as % of stem diameter [0:70]
+/* [Stem] */
+// Stem diameter where it meets the cone (mm)
+stem_diameter = 20; // [10:60]
+// Length of the stem (mm)
+stem_length = 50; // [5:150]
+// How much narrower the stem's end is, as a % of its diameter
+stem_taper = 15; // [0:50]
+// Diameter of the air gap channel, as a % of the stem diameter; 0 for none
+air_gap_percentage = 40; // [0:70]
 
-fin_type = 1;         // Type of "turbo" fins [0:off, 1:common fins, 2:improved]
-fin_count = 10;       // Number of fins [0:15]
-fin_twist_angle = 45; // Twist angle for fins [0:60]
-fin_direction = 0;    // Twist direction [0:clockwise, 1:counterclockwise]
-fin_depth = 3;        // Depth of fins [1:8]
+/* [Fins] */
+// Type of "turbo" fins
+fin_type = 1; // [0:off, 1:common fins, 2:improved]
+// Number of fins
+fin_count = 10; // [0:15]
+// How far the fins twist (degrees)
+fin_twist_angle = 45; // [0:60]
+// Twist direction
+fin_direction = 0; // [0:clockwise, 1:counterclockwise]
+// How deep the fins reach into the cone (mm)
+fin_depth = 3; // [1:8]
 
+/* [Hidden] */
 $fn = $preview ? 128 : 128 * 2;
 
 finned_funnel(outer_diameter, cone_angle, stem_diameter, stem_length, stem_taper, air_gap_percentage, fin_type,

@@ -9,23 +9,19 @@
  *
  */
 
-// height of the slanted funneling section
-funnel_height = 60;
-
-// top radius of the funnel
-funnel_top_radius = 50;
-
-// height of the throat section
-throat_height = 20;
-
-// radius of the throat
-throat_radius = 15;
-
-// thickness of the funnel wall
-wall_thickness = 0.8;
-
-// additional height at the funnel's top edge
-top_edge_height = 5;
+/* [Funnel] */
+// Height of the cone (mm)
+funnel_height = 60; // [10:1:200]
+// Inside radius at the top of the cone (mm)
+funnel_top_radius = 50; // [10:1:150]
+// Height of the straight throat below the cone (mm)
+throat_height = 20; // [5:1:100]
+// Inside radius of the throat (mm)
+throat_radius = 15; // [2:0.5:60]
+// Wall thickness, square to the wall (mm)
+wall_thickness = 0.8; // [0.4:0.1:4]
+// Height of the straight rim above the cone (mm)
+top_edge_height = 5; // [0:1:30]
 
 funnel(funnel_height = funnel_height, funnel_top_radius = funnel_top_radius, throat_height = throat_height,
        throat_radius = throat_radius, wall_thickness = wall_thickness, top_edge_height = top_edge_height);
