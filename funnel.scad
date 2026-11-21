@@ -23,8 +23,10 @@ wall_thickness = 0.8; // [0.4:0.1:4]
 // Height of the straight rim above the cone (mm)
 top_edge_height = 5; // [0:1:30]
 
-funnel(funnel_height = funnel_height, funnel_top_radius = funnel_top_radius, throat_height = throat_height,
-       throat_radius = throat_radius, wall_thickness = wall_thickness, top_edge_height = top_edge_height);
+funnel(
+    funnel_height=funnel_height, funnel_top_radius=funnel_top_radius, throat_height=throat_height,
+    throat_radius=throat_radius, wall_thickness=wall_thickness, top_edge_height=top_edge_height
+);
 
 /*
  * @brief Generate a funnel shape using the given parameters.
@@ -37,12 +39,22 @@ funnel(funnel_height = funnel_height, funnel_top_radius = funnel_top_radius, thr
  * @param top_edge_height Additional height at the funnel's top edge.
  * @param smoothness_segments Number of segments for a smooth rotation.
  */
-module funnel(funnel_height, funnel_top_radius, throat_height, throat_radius, wall_thickness, top_edge_height,
-              smoothness_segments = 128)
-{
-    rotate_extrude($fn = smoothness_segments)
-        polygon(funnel_profile(funnel_height, funnel_top_radius, throat_height, throat_radius, wall_thickness,
-                               top_edge_height));
+module funnel(
+    funnel_height,
+    funnel_top_radius,
+    throat_height,
+    throat_radius,
+    wall_thickness,
+    top_edge_height,
+    smoothness_segments = 128
+) {
+    rotate_extrude($fn=smoothness_segments)
+        polygon(
+            funnel_profile(
+                funnel_height, funnel_top_radius, throat_height, throat_radius, wall_thickness,
+                top_edge_height
+            )
+        );
 }
 
 /*
@@ -54,18 +66,34 @@ module funnel(funnel_height, funnel_top_radius, throat_height, throat_radius, wa
  * wall_thickness away from it, so its corners sit below the inside ones by
  * wall_thickness * (slope length - funnel_height) / (top radius - throat radius).
  */
-function funnel_profile(funnel_height, funnel_top_radius, throat_height, throat_radius, wall_thickness,
-                        top_edge_height) =
-    let(run = funnel_top_radius - throat_radius, slope = norm([ run, funnel_height ]),
+function funnel_profile(
+    funnel_height,
+    funnel_top_radius,
+    throat_height,
+    throat_radius,
+    wall_thickness,
+    top_edge_height
+) =
+    let (
+        run = funnel_top_radius - throat_radius,
+        slope = norm([run, funnel_height]),
         drop = wall_thickness * (slope - funnel_height) / run,
-        top = throat_height + funnel_height + top_edge_height)
-        assert(run > 0, "funnel_top_radius must be larger than throat_radius")
-            assert(drop < throat_height, str("throat_height must be more than ", drop,
-                                             " mm, or the outside of the slope runs below the throat"))
-                [
-                    [ throat_radius, 0 ], [ throat_radius, throat_height ],
-                    [ funnel_top_radius, throat_height + funnel_height ], [ funnel_top_radius, top ],
-                    [ funnel_top_radius + wall_thickness, top ],
-                    [ funnel_top_radius + wall_thickness, throat_height + funnel_height - drop ],
-                    [ throat_radius + wall_thickness, throat_height - drop ], [ throat_radius + wall_thickness, 0 ]
-                ];
+        top = throat_height + funnel_height + top_edge_height
+    )
+    assert(run > 0, "funnel_top_radius must be larger than throat_radius")
+    assert(
+        drop < throat_height, str(
+            "throat_height must be more than ", drop,
+            " mm, or the outside of the slope runs below the throat"
+        )
+    )
+    [
+        [throat_radius, 0],
+        [throat_radius, throat_height],
+        [funnel_top_radius, throat_height + funnel_height],
+        [funnel_top_radius, top],
+        [funnel_top_radius + wall_thickness, top],
+        [funnel_top_radius + wall_thickness, throat_height + funnel_height - drop],
+        [throat_radius + wall_thickness, throat_height - drop],
+        [throat_radius + wall_thickness, 0],
+    ];
