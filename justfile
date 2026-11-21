@@ -12,6 +12,17 @@ test:
     @just _check funnel_with_fins.scad "-D fin_type=1" 1 104.42 100 119.28
     @just _check funnel_with_fins.scad "-D fin_type=2" 1 104.42 100 119.28
 
+# Everything CI runs, bar the tests
+check: fmt-check
+
+# Format the .scad sources with topiary (.topiary/languages.ncl)
+fmt:
+    git ls-files -z '*.scad' | xargs -0 -r topiary format
+
+# Check the .scad sources are formatted, without changing them
+fmt-check:
+    git ls-files -z '*.scad' | xargs -0 -r -n1 topiary format --check
+
 [private]
 _check file defines solids x y z:
     @stl=$(mktemp --suffix .stl) && openscad --hardwarnings {{defines}} --export-format binstl -o "$stl" {{file}} 2>/dev/null && python3 tests/check_stl.py "$stl" {{solids}} {{x}} {{y}} {{z}}; rc=$?; rm -f "$stl"; [ $rc -eq 0 ] || echo "{{file}} {{defines}} failed"; exit $rc
