@@ -1,1 +1,3 @@
+title: parametric-funnel
+description: Two parametric funnels for 3D printing in OpenSCAD, one plain and one for vase mode
 models: funnel.scad, funnel_with_fins.scad

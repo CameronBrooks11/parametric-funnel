@@ -11,6 +11,8 @@ test:
     @just _check funnel_with_fins.scad "-D fin_type=0" 1 104.42 100 119.28
     @just _check funnel_with_fins.scad "-D fin_type=1" 1 104.42 100 119.28
     @just _check funnel_with_fins.scad "-D fin_type=2" 1 104.42 100 119.28
+    @# examples/narrow_funnel.scad: 2 * (35 + 1.2) across, 15 + 40 + 4 tall.
+    @just _check examples/narrow_funnel.scad "" 1 72.4 72.4 59
 
 # Everything CI runs, bar the tests
 check: fmt-check
