@@ -25,7 +25,8 @@ fmt-check:
 
 [private]
 _check file defines solids x y z:
-    @stl=$(mktemp --suffix .stl) && openscad --hardwarnings {{defines}} --export-format binstl -o "$stl" {{file}} 2>/dev/null && python3 tests/check_stl.py "$stl" {{solids}} {{x}} {{y}} {{z}}; rc=$?; rm -f "$stl"; [ $rc -eq 0 ] || echo "{{file}} {{defines}} failed"; exit $rc
+    @# A failed assert leaves OpenSCAD's exit status at 0, so its stderr is read too.
+    @stl=$(mktemp --suffix .stl); err=$(openscad --hardwarnings {{defines}} --export-format binstl -o "$stl" {{file}} 2>&1); rc=$?; if echo "$err" | grep -E '^(ERROR|WARNING)'; then rc=1; fi; if [ $rc -eq 0 ]; then python3 tests/check_stl.py "$stl" {{solids}} {{x}} {{y}} {{z}}; rc=$?; fi; rm -f "$stl"; [ $rc -eq 0 ] || echo "{{file}} {{defines}} failed"; exit $rc
 
 # Render the README pictures into assets/
 images:
