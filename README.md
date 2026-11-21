@@ -29,6 +29,7 @@ funnel(funnel_height = 60, funnel_top_radius = 50, throat_height = 20,
 | `smoothness_segments` | Segments around the circumference. Default 128. |
 
 `funnel_profile()` returns the cross-section as points, for checking or reuse.
+`examples/narrow_funnel.scad` calls the module from another file.
 
 ## `funnel_with_fins.scad`
 
@@ -58,9 +59,12 @@ by DrJones, licensed CC-BY. Set the parameters at the top of the file:
 ## Development
 
 With [just](https://just.systems/), OpenSCAD and Python 3, `just test` checks
-the plain funnel's profile, then renders the plain funnel and the finned
-funnel with each fin type and checks that each is one solid of the expected
-size. `just images` renders the pictures in `assets/`.
+the plain funnel's profile, then renders the plain funnel, the finned
+funnel with each fin type and the example, and checks that each is one solid
+of the expected size, with no error or warning. `just check` checks the
+`.scad` files are formatted with [topiary](https://github.com/tweag/topiary)
+0.8.0; `just fmt` formats them. `just images` renders the pictures in
+`assets/`.
 
 ## Acknowledgement
 

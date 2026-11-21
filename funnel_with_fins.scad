@@ -50,8 +50,10 @@ fin_depth = 3; // [1:8]
 /* [Hidden] */
 $fn = $preview ? 128 : 128 * 2;
 
-finned_funnel(outer_diameter, cone_angle, stem_diameter, stem_length, stem_taper, air_gap_percentage, fin_type,
-              fin_count, fin_twist_angle, fin_direction, fin_depth);
+finned_funnel(
+    outer_diameter, cone_angle, stem_diameter, stem_length, stem_taper, air_gap_percentage, fin_type,
+    fin_count, fin_twist_angle, fin_direction, fin_depth
+);
 
 /**
  * @brief: Module to create a funnel with fins and an air gap.
@@ -70,22 +72,30 @@ finned_funnel(outer_diameter, cone_angle, stem_diameter, stem_length, stem_taper
  * @param fin_dir: Twist direction of the fins.
  * @param fin_dep: Depth of the fins.
  */
-module finned_funnel(outer_d, cone_ang, stem_d, stem_len, stem_tap, air_gap_pct, fin_typ, fin_ct, fin_twist_ang,
-                     fin_dir, fin_dep)
-{
+module finned_funnel(
+    outer_d,
+    cone_ang,
+    stem_d,
+    stem_len,
+    stem_tap,
+    air_gap_pct,
+    fin_typ,
+    fin_ct,
+    fin_twist_ang,
+    fin_dir,
+    fin_dep
+) {
 
     // Derived values:
     cone_h = (outer_d - stem_d) / 2 / tan(cone_ang / 2);
     air_gap_d = stem_d * air_gap_pct / 100;
 
-    difference()
-    {
-        union()
-        {
+    difference() {
+        union() {
             // Cone section: from the outer diameter to the stem diameter.
-            cylinder(h = cone_h, d1 = outer_d, d2 = stem_d);
+            cylinder(h=cone_h, d1=outer_d, d2=stem_d);
             // Stem section: translated upward by the cone height.
-            translate([ 0, 0, cone_h ]) cylinder(h = stem_len, d1 = stem_d, d2 = stem_d * (1 - stem_tap / 100));
+            translate([0, 0, cone_h]) cylinder(h=stem_len, d1=stem_d, d2=stem_d * (1 - stem_tap / 100));
         }
         if (air_gap_pct > 0)
             airgap(outer_d, cone_ang, stem_d, cone_h, stem_len, stem_tap, air_gap_d);
@@ -96,7 +106,7 @@ module finned_funnel(outer_d, cone_ang, stem_d, stem_len, stem_tap, air_gap_pct,
     }
 
     // Thumb tab: a small cylinder translated along X.
-    translate([ outer_d / 2 - tan(cone_ang / 2), 0, 0 ]) cylinder(h = 2, d = 5 + outer_d * 0.05);
+    translate([outer_d / 2 - tan(cone_ang / 2), 0, 0]) cylinder(h=2, d=5 + outer_d * 0.05);
 }
 
 /**
@@ -112,16 +122,14 @@ module finned_funnel(outer_d, cone_ang, stem_d, stem_len, stem_tap, air_gap_pct,
  *  @param stem_tap: Taper percentage of the stem.
  *  @param air_gap_d: Diameter of the air gap.
  */
-module airgap(outer_d, cone_ang, stem_d, cone_h, stem_len, stem_tap, air_gap_d)
-{
+module airgap(outer_d, cone_ang, stem_d, cone_h, stem_len, stem_tap, air_gap_d) {
     air_gap_rot_ang = cone_ang / 2 + air_gap_d * cos(cone_ang / 2) * 28.6 / (cone_h - 2);
     stem_ext_ang = atan((stem_d * stem_tap / 100) / 2 / stem_len);
 
-    translate([ stem_d / 2, 0, cone_h ])
-    {
-        sphere(d = air_gap_d);
-        rotate([ 0, 180 - air_gap_rot_ang, 0 ]) cylinder(h = sqrt(outer_d * outer_d / 4 + cone_h ^ 2), d = air_gap_d);
-        rotate([ 0, -stem_ext_ang, 0 ]) cylinder(h = stem_len + 10, d = air_gap_d);
+    translate([stem_d / 2, 0, cone_h]) {
+        sphere(d=air_gap_d);
+        rotate([0, 180 - air_gap_rot_ang, 0]) cylinder(h=sqrt(outer_d * outer_d / 4 + cone_h ^ 2), d=air_gap_d);
+        rotate([0, -stem_ext_ang, 0]) cylinder(h=stem_len + 10, d=air_gap_d);
     }
 }
 
@@ -137,14 +145,12 @@ module airgap(outer_d, cone_ang, stem_d, cone_h, stem_len, stem_tap, air_gap_d)
  * @param fin_twist_ang: Twist angle of the fins.
  * @param fin_dir: Twist direction of the fins.
  */
-module fins_original(outer_d, cone_h, stem_d, fin_ct, fin_twist_ang, fin_dir, fin_dep)
-{
-    difference()
-    {
-        mirror([ 0, fin_dir, 0 ]) union() for (fin_ang = [2.5 + 360 / outer_d:360 / fin_ct:359])
-            rotate([ 0, 0, fin_ang ]) linear_extrude(cone_h, twist = -tan(fin_twist_ang) * 2 * 57.3 * cone_h / outer_d)
-                translate([ stem_d / 2 + 3, 0, 0 ]) square([ outer_d / 2, 0.1 ]);
-        cylinder(h = cone_h - fin_dep, d1 = outer_d - 2 * fin_dep, d2 = stem_d);
+module fins_original(outer_d, cone_h, stem_d, fin_ct, fin_twist_ang, fin_dir, fin_dep) {
+    difference() {
+        mirror([0, fin_dir, 0]) union()for (fin_ang = [2.5 + 360 / outer_d:360 / fin_ct:359])
+                rotate([0, 0, fin_ang]) linear_extrude(cone_h, twist=-tan(fin_twist_ang) * 2 * 57.3 * cone_h / outer_d)
+                        translate([stem_d / 2 + 3, 0, 0]) square([outer_d / 2, 0.1]);
+        cylinder(h=cone_h - fin_dep, d1=outer_d - 2 * fin_dep, d2=stem_d);
     }
 }
 
@@ -160,28 +166,24 @@ module fins_original(outer_d, cone_h, stem_d, fin_ct, fin_twist_ang, fin_dir, fi
  * @param fin_twist_ang: Twist angle of the fins.
  * @param fin_dir: Twist direction of the fins.
  */
-module improved_fins(outer_d, cone_h, stem_d, fin_ct, fin_twist_ang, fin_dir, fin_dep, n = 12)
-{
+module improved_fins(outer_d, cone_h, stem_d, fin_ct, fin_twist_ang, fin_dir, fin_dep, n = 12) {
     sub_h = cone_h / n;
     twist_fact = -tan(fin_twist_ang) * 2 * 57.3 * sub_h;
 
     // Recursive helper module
-    module sub(i)
-    {
-        if (i < n)
-        {
+    module sub(i) {
+        if (i < n) {
             current_d = outer_d + (i + 0.5) * sub_h / cone_h * (stem_d - outer_d);
             section_twist = twist_fact / current_d;
             for (fin_ang = [2.5 + 360 / outer_d:360 / fin_ct:359])
-                rotate([ 0, 0, fin_ang ]) linear_extrude(sub_h, twist = section_twist)
-                    translate([ stem_d / 2 + 3, 0, 0 ]) square([ current_d / 2, 0.1 ]);
-            translate([ 0, 0, sub_h ]) rotate([ 0, 0, -section_twist ]) sub(i + 1);
+                rotate([0, 0, fin_ang]) linear_extrude(sub_h, twist=section_twist)
+                        translate([stem_d / 2 + 3, 0, 0]) square([current_d / 2, 0.1]);
+            translate([0, 0, sub_h]) rotate([0, 0, -section_twist]) sub(i + 1);
         }
     }
 
-    mirror([ 0, fin_dir, 0 ]) difference()
-    {
-        sub(0);
-        cylinder(h = cone_h - fin_dep, d1 = outer_d - 2 * fin_dep, d2 = stem_d);
-    }
+    mirror([0, fin_dir, 0]) difference() {
+            sub(0);
+            cylinder(h=cone_h - fin_dep, d1=outer_d - 2 * fin_dep, d2=stem_d);
+        }
 }
